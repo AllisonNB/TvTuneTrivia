@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 
-
+const hello = 'hello'
 
 const Image = styled.div`
     border: 2px solid orange;
