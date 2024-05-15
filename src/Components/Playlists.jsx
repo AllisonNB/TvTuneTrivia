@@ -1,14 +1,14 @@
 import { useContext } from "react";
 import { styled } from "styled-components";
 
+import { PlaylistContext } from "../store/PlaylistContext";
 
-import { SongContext } from '../store/SongContext';
 
 const List = styled.div`
     border: 2px solid blue;
     width: 15%;
     margin: 0;
-    padding-top: 10%;
+    padding: 10% 1% 1% 1%;
 
     & h1 {
         font-size: 1rem;
@@ -19,9 +19,8 @@ const List = styled.div`
 
 export default function Playlists() {
 
-    const songInfo = useContext(SongContext);
+    const { playlist } = useContext(PlaylistContext);
 
-    const playlist = songInfo.active_playlist;
 
     return (
         <List>
