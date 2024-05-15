@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 
 import Playlists from './Components/Playlists';
@@ -5,7 +6,7 @@ import AlbumCover from './Components/AlbumCover';
 import Player from './Components/Player';
 import Guesser from './Components/Guesser';
 
-import SongContextProvider from './store/SongContext';
+import PlaylistContextProvider from './store/PlaylistContext';
 
 
 const Main = styled.main`
@@ -22,13 +23,11 @@ const SongDisplay = styled.div`
 `
 
 
-
-
 function App() {
 
 
   return (
-    <SongContextProvider>
+    <PlaylistContextProvider>
       <Main>
         <Playlists />
         <SongDisplay>
@@ -37,7 +36,7 @@ function App() {
           <Guesser />
         </SongDisplay>
       </Main>
-    </SongContextProvider>
+    </PlaylistContextProvider>
   )
 }
 
