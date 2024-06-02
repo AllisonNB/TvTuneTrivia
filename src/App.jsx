@@ -22,9 +22,8 @@ const SongDisplay = styled.div`
   flex-direction: column;
 `
 
-
+//utilize react routing to make sure data is loaded before components render? --> will limit excessive re-rendering?
 function App() {
-
 
   return (
     <PlaylistContextProvider>

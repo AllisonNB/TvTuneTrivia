@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 
 import { PlaylistContext } from "../store/PlaylistContext";
 import { styled } from "styled-components";
@@ -14,21 +14,22 @@ const Album = styled.div`
     & img {
         width: 100%;
         height: auto;
-        filter: blur(1.5rem)
+        
     }
-
 `
+// filter: blur(1.5rem)
+
+
+
 
 export default function AlbumCover() {
 
-    const { tracks } = useContext(PlaylistContext);
-
-    const randIndex = Math.floor(Math.random() * tracks?.length);
+    const { currentTrack } = useContext(PlaylistContext);
 
 
     return (
         <Album>
-            <img src={tracks?.[randIndex].image} alt="disguised album cover" />
+            <img src={currentTrack?.image} alt="blurred album cover" />
         </Album>
     )
 }

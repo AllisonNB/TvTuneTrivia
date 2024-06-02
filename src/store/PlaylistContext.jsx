@@ -17,7 +17,8 @@ export const TokenContext = createContext({
 
 export const PlaylistContext = createContext({
     playlist: null,
-    tracks: [{ name: null, image: null }],
+    tracks: [{ name: null, image: null, preview: null }],
+    currentTrack: [{ name: null, image: null, preview: null }],
 })
 
 //context provider component
@@ -49,14 +50,23 @@ export default function PlaylistContextProvider({ children }) {
         const allTracks = playlistData.tracks.items;
 
 
-        const tracks = allTracks.map(song => {
-            return {
+        const tracks = allTracks
+            .filter(song => song.track.preview_url !== null && song.track.album.name !== null && song.track.album.images[1].url)
+            .map(song => ({
                 name: song.track.album.name,
-                image: song.track.album.images[1].url  //300 width & height
-            }
-        })
+                image: song.track.album.images[1].url,
+                preview: song.track.preview_url
+            }));
 
-        setPlaylist({ playlist, tracks });
+
+        const randIndex = Math.floor(Math.random() * tracks.length);
+        const currentTrack = {
+            name: tracks[randIndex].name,
+            image: tracks[randIndex].image,
+            preview: tracks[randIndex].preview
+        }
+
+        setPlaylist({ playlist, tracks, currentTrack });
     }
 
 
@@ -64,6 +74,9 @@ export default function PlaylistContextProvider({ children }) {
         getPlaylist();
     }, [])
 
+
+
+    console.log(playlist)
 
 
     return (
