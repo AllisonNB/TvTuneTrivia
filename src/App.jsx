@@ -1,39 +1,31 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { styled } from 'styled-components';
 
 import Playlists from './Components/Playlists';
-import AlbumCover from './Components/AlbumCover';
-import Player from './Components/Player';
-import Guesser from './Components/Guesser';
+// import AlbumCover from './Components/AlbumCover';
+// import Player from './Components/Player';
+// import Guesser from './Components/Guesser';
+import SongDisplay from './Components/SongDisplay/SongDisplayContainer';
 
 import PlaylistContextProvider from './store/PlaylistContext';
+import './app.css'
 
 
 const Main = styled.main`
-  border: 2px solid green;
   display: flex;
+  height: 100vh;
+  width: 100%;
+  background-color: #E76F51;
 `
 
-const SongDisplay = styled.div`
-  border: 2px solid black;
-  width: 60%;
-  margin: 1% 1% 1% 10%;
-  display: flex;
-  flex-direction: column;
-`
-
-//utilize react routing to make sure data is loaded before components render? --> will limit excessive re-rendering?
 function App() {
+  const [isCorrect, setIsCorrect] = useState(false)
 
   return (
     <PlaylistContextProvider>
       <Main>
         <Playlists />
-        <SongDisplay>
-          <AlbumCover />
-          <Player />
-          <Guesser />
-        </SongDisplay>
+        <SongDisplay isCorrect={isCorrect} setIsCorrect={setIsCorrect} />
       </Main>
     </PlaylistContextProvider>
   )

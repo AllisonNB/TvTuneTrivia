@@ -16,9 +16,10 @@ export const TokenContext = createContext({
 });
 
 export const PlaylistContext = createContext({
-    playlist: null,
+    playlistName: null,
     tracks: [{ name: null, image: null, preview: null }],
     currentTrack: [{ name: null, image: null, preview: null }],
+    isLoading: false
 })
 
 //context provider component
@@ -28,6 +29,12 @@ export default function PlaylistContextProvider({ children }) {
 
 
     const getPlaylist = async () => {
+        setPlaylist(
+            {
+                ...playlist,
+                isLoading: true
+            }
+        )
         const initialResponse = await fetch('https://accounts.spotify.com/api/token', {
             method: 'POST',
             body: `grant_type=client_credentials&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}`,
@@ -46,18 +53,18 @@ export default function PlaylistContextProvider({ children }) {
         });
 
         const playlistData = await playlistResponse.json();
-        const playlist = playlistData.name;
+        const playlistName = playlistData.name;
         const allTracks = playlistData.tracks.items;
-
 
         const tracks = allTracks
             .filter(song => song.track.preview_url !== null && song.track.album.name !== null && song.track.album.images[1].url)
             .map(song => ({
-                name: song.track.album.name,
+                name: song.track.name,
                 image: song.track.album.images[1].url,
                 preview: song.track.preview_url
             }));
 
+        setPlaylist({ ...playlist, playlistName, tracks, isLoading: false });
 
         const randIndex = Math.floor(Math.random() * tracks.length);
         const currentTrack = {
@@ -66,18 +73,20 @@ export default function PlaylistContextProvider({ children }) {
             preview: tracks[randIndex].preview
         }
 
-        setPlaylist({ playlist, tracks, currentTrack });
+        setPlaylist({ playlistName, tracks, currentTrack, isLoading: false });
+
+
+        // const randIndex = Math.floor(Math.random() * trackList.length);
+        // const currentTrackIndex = trackList.indexOf(randIndex)
+        // const currentSong = trackList.splice(currentTrackIndex, 1)
+
+        // setPlaylist({ playlistName, tracks: trackList, currentTrack: currentSong[0], isLoading: false });
     }
 
 
     useEffect(() => {
         getPlaylist();
     }, [])
-
-
-
-    console.log(playlist)
-
 
     return (
         <PlaylistContext.Provider value={playlist}>
