@@ -20,17 +20,7 @@ const Item = styled.li`
     font-style: normal;
     font-size: 2.2rem;
     color: #fefae0;
-
-    &.active {
-        color: #F4A261;
-    }
-
-    &:hover {
-        color: #F4A261;
-    }
 `
-
-
 
 export default function Playlists() {
 
