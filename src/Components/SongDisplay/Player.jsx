@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
 import ReactPlayer from 'react-player';
-
 
 import { styled } from "styled-components";
 import { FaPlay, FaPause } from "react-icons/fa";
-
 
 
 const PlayerContainer = styled.div`  
