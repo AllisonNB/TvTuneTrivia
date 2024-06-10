@@ -10,15 +10,9 @@ const tvPlaylistId = '17lPiWULrpKQWLrOGJy8Ls'
 
 
 //context
-export const TokenContext = createContext({
-    access_token: null,
-    token_expiration: null,
-});
-
 export const PlaylistContext = createContext({
     playlistName: null,
     tracks: [{ name: null, image: null, preview: null }],
-    // currentTrack: [{ name: null, image: null, preview: null }],
     isLoading: false
 })
 
@@ -65,15 +59,6 @@ export default function PlaylistContextProvider({ children }) {
             }));
 
         setPlaylist({ ...playlist, playlistName, tracks, isLoading: false });
-
-        // const randIndex = Math.floor(Math.random() * tracks.length);
-        // const currentTrack = {
-        //     name: tracks[randIndex].name,
-        //     image: tracks[randIndex].image,
-        //     preview: tracks[randIndex].preview
-        // }
-
-        // setPlaylist({ playlistName, tracks, currentTrack, isLoading: false });
     }
 
 

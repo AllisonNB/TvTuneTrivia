@@ -17,6 +17,7 @@ const Main = styled.main`
 function App() {
   const [isCorrect, setIsCorrect] = useState(false);
 
+
   return (
     <PlaylistContextProvider>
       <Main>
