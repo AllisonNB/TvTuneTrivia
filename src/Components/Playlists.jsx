@@ -1,17 +1,22 @@
 import { useContext } from "react";
 import { styled } from "styled-components";
 
+import { PlaylistContext } from "../store/PlaylistContext";
 
-import { SongContext } from '../store/SongContext';
 
 const List = styled.div`
-    border: 2px solid blue;
     width: 15%;
-    margin: 0;
-    padding-top: 10%;
+    margin: 5% 0 5% 0;
+    padding: 10% 1% 1% 1%;
+    background-color: #264653;
+    border-radius: 0 5% 5% 0; 
 
     & h1 {
-        font-size: 1rem;
+        font-family: "Lilita One", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 2.2rem;
+        color: #fefae0;
     }
 `
 
@@ -19,13 +24,11 @@ const List = styled.div`
 
 export default function Playlists() {
 
-    const songInfo = useContext(SongContext);
-
-    const playlist = songInfo.active_playlist;
+    const { playlistName } = useContext(PlaylistContext);
 
     return (
         <List>
-            <h1>{playlist}</h1>
+            <h1>{playlistName}</h1>
         </List>
     )
 }
