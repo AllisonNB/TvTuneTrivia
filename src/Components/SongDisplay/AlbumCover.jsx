@@ -21,8 +21,6 @@ const Album = styled.div`
 export default function AlbumCover({ isCorrect, currentSong, tracks }) {
     const { isLoading } = useContext(PlaylistContext);
 
-    console.log(tracks)
-
     return (
         <Album $reveal={isCorrect}>
             {
