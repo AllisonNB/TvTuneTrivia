@@ -22,8 +22,6 @@ const Item = styled.li`
     color: #fefae0;
 `
 
-
-
 export default function Playlists() {
 
     const { playlistName } = useContext(PlaylistContext);
