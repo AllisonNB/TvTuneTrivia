@@ -51,7 +51,7 @@ const Button = styled.button`
 
 
 
-export default function Guesser({ isCorrect, setIsCorrect, currentSong, getSong, tracks }) {
+export default function Guesser({ isCorrect, setIsCorrect, currentSong, getSong, tracks, stopPlaying }) {
 
     const trackName = currentSong?.name
 
@@ -100,7 +100,7 @@ export default function Guesser({ isCorrect, setIsCorrect, currentSong, getSong,
                     {tracks?.length === 0 ? <p>Finished!</p> :
                         <Button
                             type='button'
-                            onClick={() => { getSong(true); setGuess(''); setNumOfGuesses(0) }}
+                            onClick={() => { getSong(true); setGuess(''); setNumOfGuesses(0); stopPlaying() }}
                         >
                             Next Song
                         </Button>

@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
 import ReactPlayer from 'react-player';
-
 
 import { styled } from "styled-components";
 import { FaPlay, FaPause } from "react-icons/fa";
-
 
 
 const PlayerContainer = styled.div`  
@@ -70,26 +67,7 @@ const Range = styled.input.attrs({ type: 'range' })`
 
 
 
-export default function Player({ currentSong }) {
-
-
-    const [player, setPlayer] = useState({
-        url: null,
-        isPlaying: false,
-        volume: 0.5,
-    });
-
-    const togglePlay = () => {
-        setPlayer(prevplayer => ({ ...prevplayer, isPlaying: !prevplayer.isPlaying }));
-    }
-
-    const changeVolume = (event) => {
-        setPlayer(prevplayer => ({ ...prevplayer, volume: +event.target.value }));
-    }
-
-    const handleSongEnd = () => {
-        setPlayer(prevplayer => ({ ...prevplayer, isPlaying: false }));
-    }
+export default function Player({ currentSong, player, togglePlay, changeVolume, stopPlaying }) {
 
     return (
         <PlayerContainer>
@@ -99,7 +77,7 @@ export default function Player({ currentSong }) {
                 url={currentSong?.preview}
                 playing={player.isPlaying}
                 volume={player.volume}
-                onEnded={handleSongEnd}
+                onEnded={stopPlaying}
                 onError={e => console.log(e)}
             />
             <Button onClick={togglePlay} $playing={player.isPlaying}>{player.isPlaying ? <FaPause /> : <FaPlay />}</Button>

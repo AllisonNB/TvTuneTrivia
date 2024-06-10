@@ -17,8 +17,15 @@ const SongDisplayContainer = styled.div`
 `
 
 const SongDisplay = ({ isCorrect, setIsCorrect }) => {
-    const { tracks } = useContext(PlaylistContext)
-    const [currentSong, setCurrentSong] = useState({})
+    const { tracks } = useContext(PlaylistContext);
+
+    const [currentSong, setCurrentSong] = useState({});
+    const [player, setPlayer] = useState({
+        url: null,
+        isPlaying: false,
+        volume: 0.5,
+    });
+
 
     const getSong = (resetAlbumCover) => {
         const randIndex = Math.floor(Math.random() * tracks?.length);
@@ -35,12 +42,25 @@ const SongDisplay = ({ isCorrect, setIsCorrect }) => {
     }, [tracks])
 
 
+    const togglePlay = () => {
+        setPlayer(prevplayer => ({ ...prevplayer, isPlaying: !prevplayer.isPlaying }));
+    }
+
+    const changeVolume = (event) => {
+        setPlayer(prevplayer => ({ ...prevplayer, volume: +event.target.value }));
+    }
+
+    const stopPlaying = () => {
+        setPlayer(prevplayer => ({ ...prevplayer, isPlaying: false }));
+    }
+
+
     return (
         <SongDisplayContainer>
             <Header />
             <AlbumCover isCorrect={isCorrect} currentSong={currentSong} />
-            <Player currentSong={currentSong} />
-            <Guesser isCorrect={isCorrect} setIsCorrect={setIsCorrect} currentSong={currentSong} getSong={getSong} tracks={tracks} />
+            <Player currentSong={currentSong} player={player} togglePlay={togglePlay} changeVolume={changeVolume} stopPlaying={stopPlaying} />
+            <Guesser isCorrect={isCorrect} setIsCorrect={setIsCorrect} currentSong={currentSong} getSong={getSong} tracks={tracks} stopPlaying={stopPlaying} />
         </SongDisplayContainer>
     )
 }
