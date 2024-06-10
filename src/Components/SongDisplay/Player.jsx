@@ -1,21 +1,17 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import ReactPlayer from 'react-player';
 
-import { PlaylistContext } from "../store/PlaylistContext";
+
 import { styled } from "styled-components";
+import { FaPlay, FaPause } from "react-icons/fa";
 
 
 
-const PlayerContainer = styled.div`
-    font-family: "LXGW WenKai Mono TC", monospace;
-    font-weight: 700;
-    font-style: normal;
+const PlayerContainer = styled.div`  
     color: #fefae0;
-    border: 2px solid pink;
-    padding: 3% 3%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
 `
 
@@ -26,42 +22,42 @@ const Volume = styled.div`
     font-size: 1.2rem;
 `
 
-const Button = styled.button`
-    font-family: "LXGW WenKai Mono TC", monospace;
-    font-weight: 700;    
-    font-size: 2rem;
-    background: #264653;
+const Button = styled.button`  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: ${props => props.$playing ? '#E9C46A;' : '#264653;'} 
     color: #fefae0;
     border: none;
+    font-size: 1.5rem;
+    padding: 10px;
     border-radius: 50%;
-    padding: 5%;
-    margin: 2% 2%;
+    margin: 14px;
     cursor: pointer;
+
     transition: background 0.25s ease-in-out;
 
     &:hover {
         background: #E9C46A;
         color: #264653;
-        font-weight: 700;
     }
 `
 
-
 const Range = styled.input.attrs({ type: 'range' })`
     -webkit-appearance: none;
-    width: 100%;
-    height: 25%;
+    width: 170px;
+    height: 10px;
     border-radius: 5px;  
     background: #fefae0;
     outline: none;
-    margin: 5% 5%;
+    margin: 5px;
 
     &::-webkit-slider-thumb {
         -webkit-appearance: none;
-        width: 25px;
-        height: 25px;
-        border-radius: 50%; 
-        background: #2A9D8F;
+        width: 20px;
+        height: 20px;
+        border-radius: 12.5px; 
+        background:  #264653;
         cursor: pointer;
         transition: background 0.25s ease-in-out;
     }
@@ -74,12 +70,8 @@ const Range = styled.input.attrs({ type: 'range' })`
 
 
 
+export default function Player({ currentSong }) {
 
-
-
-export default function Player() {
-
-    const { currentTrack } = useContext(PlaylistContext);
 
     const [player, setPlayer] = useState({
         url: null,
@@ -104,13 +96,13 @@ export default function Player() {
             <ReactPlayer
                 width='0%'
                 height='0%'
-                url={currentTrack?.preview}
+                url={currentSong?.preview}
                 playing={player.isPlaying}
                 volume={player.volume}
                 onEnded={handleSongEnd}
                 onError={e => console.log(e)}
             />
-            <Button onClick={togglePlay}>{player.isPlaying ? 'Pause' : 'Play'}</Button>
+            <Button onClick={togglePlay} $playing={player.isPlaying}>{player.isPlaying ? <FaPause /> : <FaPlay />}</Button>
             <Volume>
                 <label htmlFor="volume">Volume</label>
                 <Range id='volume' type='range' min={0} max={1} step={0.1} value={player.volume} onChange={changeVolume} />

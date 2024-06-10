@@ -18,7 +18,7 @@ export const TokenContext = createContext({
 export const PlaylistContext = createContext({
     playlistName: null,
     tracks: [{ name: null, image: null, preview: null }],
-    currentTrack: [{ name: null, image: null, preview: null }],
+    // currentTrack: [{ name: null, image: null, preview: null }],
     isLoading: false
 })
 
@@ -66,21 +66,14 @@ export default function PlaylistContextProvider({ children }) {
 
         setPlaylist({ ...playlist, playlistName, tracks, isLoading: false });
 
-        const randIndex = Math.floor(Math.random() * tracks.length);
-        const currentTrack = {
-            name: tracks[randIndex].name,
-            image: tracks[randIndex].image,
-            preview: tracks[randIndex].preview
-        }
+        // const randIndex = Math.floor(Math.random() * tracks.length);
+        // const currentTrack = {
+        //     name: tracks[randIndex].name,
+        //     image: tracks[randIndex].image,
+        //     preview: tracks[randIndex].preview
+        // }
 
-        setPlaylist({ playlistName, tracks, currentTrack, isLoading: false });
-
-
-        // const randIndex = Math.floor(Math.random() * trackList.length);
-        // const currentTrackIndex = trackList.indexOf(randIndex)
-        // const currentSong = trackList.splice(currentTrackIndex, 1)
-
-        // setPlaylist({ playlistName, tracks: trackList, currentTrack: currentSong[0], isLoading: false });
+        // setPlaylist({ playlistName, tracks, currentTrack, isLoading: false });
     }
 
 
