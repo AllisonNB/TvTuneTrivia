@@ -4,9 +4,20 @@ import { PiTelevisionFill } from "react-icons/pi";
 
 const Title = styled.div`
     text-align: center;
-    font-size: 3em;
-    font-weight: 700;
-    margin: 0 0 20px 0;
+    margin: 20px;
+
+    @media (max-width: 600px) { 
+        font-size: 1.5em;
+    }
+
+    @media (min-width: 601px) and (max-width: 1024px) { 
+        font-size: 2em;
+    }
+
+    @media (min-width: 1025px) { 
+        font-size: 2.5em;
+        font-weight: 700;
+    }
 `
 
 export default function Header() {
