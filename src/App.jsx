@@ -15,14 +15,14 @@ const Main = styled.main`
 `
 
 function App() {
-  const [isCorrect, setIsCorrect] = useState(false);
+
 
 
   return (
     <PlaylistContextProvider>
       <Main>
         <Playlists />
-        <SongDisplay isCorrect={isCorrect} setIsCorrect={setIsCorrect} />
+        <SongDisplay />
       </Main>
     </PlaylistContextProvider>
   )

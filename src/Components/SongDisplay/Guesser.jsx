@@ -2,25 +2,35 @@ import { useState } from "react";
 import { styled } from "styled-components";
 
 
-const FormContainer = styled.div`
-    margin: auto 14px;
-    padding: 14px 0;
+const FormContainer = styled.form`
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    font-size: 1.2rem;
     color: #264653;
+    margin: 10px 20px;
+    font-size: 1rem;
+    font-weight: 700;
+    text-align: center;
+    gap: 10px;
 
     & div {
         display: flex;
-        justify-content: space-between;
-        margin: 0 0 5px 0; 
+        justify-content: space-around;
+        flex-wrap: wrap;
+        row-gap: 15px;
+        margin-top: 10px;
+
+        @media (min-width: 1025px) { 
+            min-width: 600px;    
+            flex-wrap: nowrap;
+            column-gap: 15px;
+        }
     }
 
-    form {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
+    @media (min-width: 1025px) { 
+        margin: 20px 20px;
+        font-size: 1.5rem;
     }
 `
 
@@ -28,17 +38,18 @@ const Input = styled.input`
         border: none;
         border-radius: 10px;
         background: #fefae0;
-        margin: 0 0 0 14px;
+        margin: 0 0 0 5px;
+        height: 20px;
+        width: 200px;
         ${props => props.$numOfGuesses > 0 && `border: ${props.$isCorrect ? '4px solid green;' : '4px solid red;'}}`}
 `
 
 const Button = styled.button`
         background: #264653;
         color: #fefae0;
-        font-size: 1rem;
+        font-weight: 400;
         border: none;
-        padding: 10px;
-        margin: 2px;
+        padding: 5%;
         border-radius: 10px;
         cursor: pointer;
         transition: background 0.25s ease-in-out;
@@ -47,11 +58,23 @@ const Button = styled.button`
         background: #E9C46A;
         color: #264653;
     }
+
+    @media (max-width: 600px) { 
+     
+    }
+
+    @media (min-width: 601px) and (max-width: 1024px) { 
+        
+    }
+
+    @media (min-width: 1025px) { 
+        font-size: 1rem;
+        padding: 1.5%
+    }
 `
 
 
-
-export default function Guesser({ isCorrect, setIsCorrect, currentSong, getSong, tracks, stopPlaying }) {
+export default function Guesser({ isCorrect, setIsCorrect, currentSong, getSong, tracks, resetPlayer }) {
 
     const trackName = currentSong?.name
 
@@ -88,25 +111,21 @@ export default function Guesser({ isCorrect, setIsCorrect, currentSong, getSong,
     };
 
     return (
-        <FormContainer >
-            <form action="submit" >
-                <div>
-                    <label htmlFor="title">What's your guess?</label>
-                    <Input id="title" name="guess" type="text" onChange={handleChange} value={guess} $isCorrect={isCorrect} $numOfGuesses={numOfGuesses} />
-                </div>
-                <div>
-                    <Button onClick={handleSubmit}>Submit Guess</Button>
-                    <Button type='button' onClick={() => setIsCorrect(true)}>Reveal?</Button>
-                    {tracks?.length === 0 ? <p>Finished!</p> :
-                        <Button
-                            type='button'
-                            onClick={() => { getSong(true); setGuess(''); setNumOfGuesses(0); stopPlaying() }}
-                        >
-                            Next Song
-                        </Button>
-                    }
-                </div>
-            </form>
+        <FormContainer action="submit">
+            <label htmlFor="title">What's your guess?</label>
+            <Input id="title" name="guess" type="text" onChange={handleChange} value={guess} $isCorrect={isCorrect} $numOfGuesses={numOfGuesses} />
+            <div>
+                <Button onClick={handleSubmit}>Submit</Button>
+                <Button type='button' onClick={() => setIsCorrect(true)}>Reveal</Button>
+                {tracks?.length === 0 ? <p>Finished!</p> :
+                    <Button
+                        type='button'
+                        onClick={() => { resetPlayer(); getSong(true); setGuess(''); setNumOfGuesses(0); }}
+                    >
+                        Next Song
+                    </Button>
+                }
+            </div>
         </FormContainer>
     )
 }

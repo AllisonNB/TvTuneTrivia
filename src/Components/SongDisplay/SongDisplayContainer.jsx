@@ -10,15 +10,29 @@ import Guesser from './Guesser';
 
 
 const SongDisplayContainer = styled.div`
-  width: 850px;
-  margin: 10px 10px 10px 120px;
   display: flex;
   flex-direction: column;
+
+    @media (max-width: 600px) { 
+       width: 375px;
+    }
+
+    @media (min-width: 601px) and (max-width: 1024px) { 
+        margin: 0 0 0 5%;
+        min-width: 400px;
+        max-width: 800px;
+    }
+
+    @media (min-width: 1025px) { 
+        margin: 0 0 0 10%;
+        min-width: 800px;
+    }
 `
 
-const SongDisplay = ({ isCorrect, setIsCorrect }) => {
+export default function SongDisplay() {
     const { tracks } = useContext(PlaylistContext);
 
+    const [isCorrect, setIsCorrect] = useState(false);
     const [currentSong, setCurrentSong] = useState({});
     const [player, setPlayer] = useState({
         url: null,
@@ -28,6 +42,9 @@ const SongDisplay = ({ isCorrect, setIsCorrect }) => {
 
 
     const getSong = (resetAlbumCover) => {
+        if (player.isPlaying) {
+            togglePlay();
+        }
         const randIndex = Math.floor(Math.random() * tracks?.length);
         const current = tracks?.splice(randIndex, 1)
         setCurrentSong(current?.[0]);
@@ -54,15 +71,18 @@ const SongDisplay = ({ isCorrect, setIsCorrect }) => {
         setPlayer(prevplayer => ({ ...prevplayer, isPlaying: false }));
     }
 
+    const resetPlayer = () => {
+        if (player.isPlaying) {
+            togglePlay();
+        }
+    }
 
     return (
         <SongDisplayContainer>
             <Header />
             <AlbumCover isCorrect={isCorrect} currentSong={currentSong} />
             <Player currentSong={currentSong} player={player} togglePlay={togglePlay} changeVolume={changeVolume} stopPlaying={stopPlaying} />
-            <Guesser isCorrect={isCorrect} setIsCorrect={setIsCorrect} currentSong={currentSong} getSong={getSong} tracks={tracks} stopPlaying={stopPlaying} />
+            <Guesser isCorrect={isCorrect} setIsCorrect={setIsCorrect} currentSong={currentSong} getSong={getSong} tracks={tracks} resetPlayer={resetPlayer} />
         </SongDisplayContainer>
     )
 }
-
-export default SongDisplay
