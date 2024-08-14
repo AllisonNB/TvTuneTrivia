@@ -1,8 +1,12 @@
-# React + Vite
+# TV Theme Song Guessing Game
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- A react app utilizing spotify's API to play previews of TV theme songs. Users have to guess the show based on the theme song. 
 
-Currently, two official plugins are available:
+# How to run the file 
+- you need a spotify premium account to run this project 
+- create a .env file and save your credentials to the following variables: 
+    - VITE_CLIENT_ID
+    - VITE_CLIENT_SECRET
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Next Steps 
+- add unit testing 
