@@ -54,7 +54,8 @@ const Button = styled.button`
         cursor: pointer;
         transition: background 0.25s ease-in-out;
 
-    & :hover {
+    & :hover, 
+    &:focus {
         background: #E9C46A;
         color: #264653;
     }
@@ -115,8 +116,19 @@ export default function Guesser({ isCorrect, setIsCorrect, currentSong, getSong,
             <label htmlFor="title">What's your guess?</label>
             <Input id="title" name="guess" type="text" onChange={handleChange} value={guess} $isCorrect={isCorrect} $numOfGuesses={numOfGuesses} />
             <div>
-                <Button onClick={handleSubmit}>Submit</Button>
-                <Button type='button' onClick={() => setIsCorrect(true)}>Reveal</Button>
+                <Button 
+                onClick={handleSubmit} 
+                aria-label='submit guess'
+                >
+                    Submit
+                </Button>
+                <Button 
+                type='button' 
+                onClick={() => setIsCorrect(true)}
+                aria-label='reveal song'
+                >
+                    Reveal
+                </Button>
                 {tracks?.length === 0 ? <p>Finished!</p> :
                     <Button
                         type='button'
