@@ -6,7 +6,6 @@ import { FaPlay, FaPause } from "react-icons/fa";
 
 const PlayerContainer = styled.div`  
     position: relative;
-    color: #fefae0;
     margin: 10px;
 
     & div{
@@ -30,6 +29,7 @@ const StyledReactPlayer = styled(ReactPlayer)`
     position: absolute;
 `
 const Volume = styled.div`
+    color: #264653;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -112,13 +112,13 @@ export default function Player({ currentSong, player, togglePlay, changeVolume, 
                 onError={e => console.log(e)}
             />
             <div>
-                <Button 
-                onClick={togglePlay} 
-                $playing={player.isPlaying}
-                aria-label={player.isPlaying ? 'pause song' : 'play song'}
+                <Button
+                    onClick={togglePlay}
+                    $playing={player.isPlaying}
+                    aria-label={player.isPlaying ? 'pause song' : 'play song'}
                 >
                     {player.isPlaying ? <FaPause /> : <FaPlay />}
-                    </Button>
+                </Button>
             </div>
             <div>
                 <Volume>

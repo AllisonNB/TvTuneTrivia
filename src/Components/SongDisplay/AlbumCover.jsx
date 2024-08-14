@@ -42,9 +42,9 @@ export default function AlbumCover({ isCorrect, currentSong }) {
     const { isLoading } = useContext(PlaylistContext);
 
     return (
-        <Album $reveal={isCorrect}>
+        <Album $reveal={isCorrect} aria-label="Tv Poster" tabindex='0' role='image'>
             {
-                isLoading ? <h2>retrieving poster...</h2> : <img src={currentSong?.image} alt="blurred album cover" />
+                isLoading ? <h2 tabindex='1'>retrieving poster...</h2> : <img src={currentSong?.image} alt="blurred album cover" />
             }
         </Album>
     )

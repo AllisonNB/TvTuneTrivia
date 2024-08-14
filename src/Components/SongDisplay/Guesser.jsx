@@ -33,7 +33,6 @@ const FormContainer = styled.form`
         font-size: 1.5rem;
     }
 `
-
 const Input = styled.input`
         border: none;
         border-radius: 10px;
@@ -43,13 +42,12 @@ const Input = styled.input`
         width: 200px;
         ${props => props.$numOfGuesses > 0 && `border: ${props.$isCorrect ? '4px solid green;' : '4px solid red;'}}`}
 `
-
 const Button = styled.button`
         background: #264653;
         color: #fefae0;
         font-weight: 400;
         border: none;
-        padding: 5%;
+        padding: 1rem;
         border-radius: 10px;
         cursor: pointer;
         transition: background 0.25s ease-in-out;
@@ -60,18 +58,21 @@ const Button = styled.button`
         color: #264653;
     }
 
-    @media (max-width: 600px) { 
-     
-    }
-
-    @media (min-width: 601px) and (max-width: 1024px) { 
-        
+    @media (max-width: 1024px) { 
+        margin-right: 5px;
     }
 
     @media (min-width: 1025px) { 
         font-size: 1rem;
-        padding: 1.5%
+        padding: 1rem;
     }
+`
+
+const Feedback = styled.div`
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    gap: 5px;
 `
 
 
@@ -114,29 +115,40 @@ export default function Guesser({ isCorrect, setIsCorrect, currentSong, getSong,
     return (
         <FormContainer action="submit">
             <label htmlFor="title">What's your guess?</label>
-            <Input id="title" name="guess" type="text" onChange={handleChange} value={guess} $isCorrect={isCorrect} $numOfGuesses={numOfGuesses} />
+            <Feedback aria-live='polite'>
+                <Input
+                    id="title"
+                    name="guess"
+                    type="text"
+                    onChange={handleChange}
+                    value={guess}
+                    $isCorrect={isCorrect}
+                    $numOfGuesses={numOfGuesses}
+                />
+                {isCorrect && numOfGuesses > 0 ? <p aria-label='feedback'>Correct!</p> : null}
+                {!isCorrect && numOfGuesses > 0 ? <p aria-label='feedback'>Incorrect!</p> : null}
+            </Feedback>
             <div>
-                <Button 
-                onClick={handleSubmit} 
-                aria-label='submit guess'
+                <Button
+                    onClick={handleSubmit}
+                    aria-label='submit guess'
                 >
                     Submit
                 </Button>
-                <Button 
-                type='button' 
-                onClick={() => setIsCorrect(true)}
-                aria-label='reveal song'
+                <Button
+                    type='button'
+                    onClick={() => setIsCorrect(true)}
+                    aria-label='reveal song'
                 >
                     Reveal
                 </Button>
-                {tracks?.length === 0 ? <p>Finished!</p> :
-                    <Button
-                        type='button'
-                        onClick={() => { resetPlayer(); getSong(true); setGuess(''); setNumOfGuesses(0); }}
-                    >
-                        Next Song
-                    </Button>
-                }
+                <Button
+                    type='button'
+                    onClick={() => { resetPlayer(); getSong(true); setGuess(''); setNumOfGuesses(0); }}
+                    disabled={tracks?.length === 0}
+                >
+                    {tracks?.length === 0 ? 'Finished!' : 'Next Song'}
+                </Button>
             </div>
         </FormContainer>
     )

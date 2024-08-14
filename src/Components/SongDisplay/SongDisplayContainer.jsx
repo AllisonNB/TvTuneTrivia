@@ -17,14 +17,12 @@ const SongDisplayContainer = styled.div`
        width: 375px;
     }
 
-    @media (min-width: 601px) and (max-width: 1024px) { 
-        margin: 0 0 0 5%;
-        min-width: 400px;
+    @media (min-width: 601px) and (max-width: 1023px) { 
+        min-width: 600px;
         max-width: 800px;
     }
 
-    @media (min-width: 1025px) { 
-        margin: 0 0 0 10%;
+    @media (min-width: 1024px) { 
         min-width: 800px;
     }
 `

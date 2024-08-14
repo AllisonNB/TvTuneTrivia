@@ -8,6 +8,7 @@ const Title = styled.div`
 
     @media (max-width: 600px) { 
         font-size: 1.5em;
+        margin: 10px;
     }
 
     @media (min-width: 601px) and (max-width: 1024px) { 
@@ -22,8 +23,6 @@ const Title = styled.div`
 
 export default function Header() {
     return (
-        <>
-            <Title> <PiTelevisionFill /> TV Tune Trivia <PiTelevisionFill /> </Title>
-        </>
+        <Title aria-label='Tv Tune Trivia' role='heading' tabindex='0'> <PiTelevisionFill /> TV Tune Trivia <PiTelevisionFill /> </Title>
     )
 }
