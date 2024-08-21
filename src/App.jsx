@@ -1,23 +1,19 @@
-import { useState, useEffect, useContext } from 'react';
-import { styled } from 'styled-components';
+import { useState, useEffect, useContext } from "react";
+import { styled } from "styled-components";
 
-import Playlists from './Components/Playlists';
-import SongDisplay from './Components/SongDisplay/SongDisplayContainer';
+import Playlists from "./Components/Playlists";
+import SongDisplay from "./Components/SongDisplay/SongDisplay";
 
-import PlaylistContextProvider from './store/PlaylistContext';
-import './app.css'
+import PlaylistContextProvider from "./store/PlaylistContext";
+import "./app.css";
 
-
-const Main = styled.main` 
+const Main = styled.main`
   display: flex;
   height: 100vh;
-  background-color: #E76F51;
-`
+  background-color: #e76f51;
+`;
 
 function App() {
-
-
-
   return (
     <PlaylistContextProvider>
       <Main>
@@ -25,7 +21,7 @@ function App() {
         <SongDisplay />
       </Main>
     </PlaylistContextProvider>
-  )
+  );
 }
 
-export default App
+export default App;

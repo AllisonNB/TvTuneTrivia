@@ -1,77 +1,73 @@
 import { createContext, useState, useEffect } from "react";
 
-
 //variables
 // import.meta.env.VITE_CLIENT_ID;
 // import.meta.env.VITE_CLIENT_SECRET;
-const CLIENT_ID = '415b6a0883054c86b68283ba682b37d5';
-const CLIENT_SECRET = 'e44f2665cd354766bfe1f1f0485e179c';
-const tvPlaylistId = '17lPiWULrpKQWLrOGJy8Ls'
-
-
+const CLIENT_ID = "415b6a0883054c86b68283ba682b37d5";
+const CLIENT_SECRET = "e44f2665cd354766bfe1f1f0485e179c";
+const tvPlaylistId = "17lPiWULrpKQWLrOGJy8Ls";
 
 //context
 export const PlaylistContext = createContext({
-    playlistName: null,
-    tracks: [{ name: null, image: null, preview: null }],
-    isLoading: false
-})
+  playlistName: null,
+  tracks: [{ name: null, image: null, preview: null }],
+});
 
 //context provider component
 export default function PlaylistContextProvider({ children }) {
+  const [playlist, setPlaylist] = useState(PlaylistContext);
 
-    const [playlist, setPlaylist] = useState(PlaylistContext);
+  const getPlaylist = async () => {
+    const initialResponse = await fetch(
+      "https://accounts.spotify.com/api/token",
+      {
+        method: "POST",
+        body: `grant_type=client_credentials&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}`,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
 
+    const tokenResponse = await initialResponse.json();
 
-    const getPlaylist = async () => {
-        setPlaylist(
-            {
-                ...playlist,
-                isLoading: true
-            }
-        )
-        const initialResponse = await fetch('https://accounts.spotify.com/api/token', {
-            method: 'POST',
-            body: `grant_type=client_credentials&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}`,
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            }
-        });
+    const playlistResponse = await fetch(
+      `https://api.spotify.com/v1/playlists/${tvPlaylistId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + tokenResponse.access_token,
+        },
+      }
+    );
 
-        const tokenResponse = await initialResponse.json();
+    const playlistData = await playlistResponse.json();
+    const playlistName = playlistData.name;
+    const allTracks = playlistData.tracks.items;
 
-        const playlistResponse = await fetch(`https://api.spotify.com/v1/playlists/${tvPlaylistId}`, {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + tokenResponse.access_token,
-            },
-        });
+    const tracks = allTracks
+      .filter(
+        (song) =>
+          song.track.preview_url !== null &&
+          song.track.album.name !== null &&
+          song.track.album.images[1].url
+      )
+      .map((song) => ({
+        name: song.track.name,
+        image: song.track.album.images[1].url,
+        preview: song.track.preview_url,
+      }));
 
-        const playlistData = await playlistResponse.json();
-        const playlistName = playlistData.name;
-        const allTracks = playlistData.tracks.items;
+    setPlaylist({ ...playlist, playlistName, tracks });
+  };
 
-        const tracks = allTracks
-            .filter(song => song.track.preview_url !== null && song.track.album.name !== null && song.track.album.images[1].url)
-            .map(song => ({
-                name: song.track.name,
-                image: song.track.album.images[1].url,
-                preview: song.track.preview_url
-            }));
+  useEffect(() => {
+    getPlaylist();
+  }, []);
 
-        setPlaylist({ ...playlist, playlistName, tracks, isLoading: false });
-    }
-
-
-    useEffect(() => {
-        getPlaylist();
-    }, [])
-
-    return (
-        <PlaylistContext.Provider value={playlist}>
-            {children}
-        </PlaylistContext.Provider>
-    )
-
-
+  return (
+    <PlaylistContext.Provider value={playlist}>
+      {children}
+    </PlaylistContext.Provider>
+  );
 }
