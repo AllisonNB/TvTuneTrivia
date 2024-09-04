@@ -81,29 +81,27 @@ describe("guessing flow", () => {
     });
     const user = userEvent.setup();
 
-    waitFor(async () => {
-      //user types incorrect guess
-      const input = screen.getByRole("textbox", {
-        name: /what\'s your guess\?/i,
-      });
-      await user.clear(input);
-      await user.type(input, "INCORRECT-GUESS");
-
-      //user submits guess
-      const submitBtn = screen.getByRole("button", { name: /submit/i });
-      await user.click(submitBtn);
-
-      //expect image to be blurred
-      const image = await screen.findByAltText("tv poster");
-      expect(image).toBeInTheDocument();
-      expect(image).toHaveStyle("filter:blur(1.5rem)");
-
-      //expect "incorrect" feedback to be displayed
-      const feedback = await screen.findByRole("paragraph", {
-        name: /feedback/i,
-      });
-      expect(feedback).toHaveTextContent(/incorrect/i);
+    //user types incorrect guess
+    const input = screen.getByRole("textbox", {
+      name: /what\'s your guess\?/i,
     });
+    await user.clear(input);
+    await user.type(input, "INCORRECT-GUESS");
+
+    //user submits guess
+    const submitBtn = screen.getByRole("button", { name: /submit/i });
+    await user.click(submitBtn);
+
+    //expect image to be blurred
+    const image = await screen.findByAltText("tv poster");
+    expect(image).toBeInTheDocument();
+    expect(image).toHaveStyle("filter:blur(1.5rem)");
+
+    //expect "incorrect" feedback to be displayed
+    const feedback = await screen.findByRole("paragraph", {
+      name: /feedback/i,
+    });
+    expect(feedback).toHaveTextContent(/incorrect/i);
   });
 });
 
