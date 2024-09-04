@@ -13,16 +13,14 @@ const contextValue = {
   ],
 };
 
+
+// ************************************************************************************
+// The issue I am running into is related to finding the poster. It seems that only the first test can find the poster element and then any subseqent tests that are supposed to find the poster, are unable to. If run only one test suite and skip the rest, then the first test in that suite passes. So the issue seems to do something with finding the poster multiple times across these different tests.
+// ************************************************************************************
+
+
+//this test suite only passes if these two tests are written in this order. Not sure why the order would be impacting the abilty for the tests to pass.
 describe("AlbumCover", () => {
-  test("loading text is displayed while waiting for current song", async () => {
-    act(() => {
-      render(<SongDisplay {...contextValue} />);
-    });
-
-    const loadingText = screen.getByText(/retrieving poster/i);
-    expect(loadingText).toBeInTheDocument();
-  });
-
   test("poster is initially rendered with blurred class", async () => {
     act(() => {
       render(<SongDisplay {...contextValue} />);
@@ -32,9 +30,20 @@ describe("AlbumCover", () => {
     expect(image).toBeInTheDocument();
     expect(image).toHaveStyle("filter:blur(1.5rem)");
   });
+
+  test("loading text is displayed while waiting for current song", async () => {
+    act(() => {
+      render(<SongDisplay {...contextValue} />);
+    });
+
+    const loadingText = screen.getByText(/retrieving poster/i);
+    expect(loadingText).toBeInTheDocument();
+  });
 });
 
-describe.skip("guessing flow", () => {
+
+//I tried using waitFor here, but it was causing false positives. The first test in this suite passes if the above test suite is skipped. 
+describe("guessing flow", () => {
   test("poster is revealed & positive feedback displayed when correct guess is submitted", async () => {
     //setup
     act(() => {
@@ -42,29 +51,27 @@ describe.skip("guessing flow", () => {
     });
     const user = userEvent.setup();
 
-    waitFor(async () => {
-      //user types correct guess - MOCKSHOW
-      const input = screen.getByRole("textbox", {
-        name: /what\'s your guess\?/i,
-      });
-      await user.clear(input);
-      await user.type(input, "MOCKSHOW");
-
-      //user submits guess
-      const submitBtn = screen.getByRole("button", { name: /submit/i });
-      await user.click(submitBtn);
-
-      //expect image to not be blurred
-      const image = await screen.findByAltText("tv poster");
-      expect(image).toBeInTheDocument();
-      expect(image).not.toHaveStyle("filter:blur(1.5rem)");
-
-      //expect "correct" feedback to be displayed
-      const feedback = await screen.findByRole("paragraph", {
-        name: /feedback/i,
-      });
-      expect(feedback).toHaveTextContent(/correct/i);
+    //user types correct guess - MOCKSHOW
+    const input = screen.getByRole("textbox", {
+      name: /what\'s your guess\?/i,
     });
+    await user.clear(input);
+    await user.type(input, "MOCKSHOW");
+
+    //user submits guess
+    const submitBtn = screen.getByRole("button", { name: /submit/i });
+    await user.click(submitBtn);
+
+    //expect image to not be blurred
+    const image = await screen.findByAltText("tv poster");
+    expect(image).toBeInTheDocument();
+    expect(image).not.toHaveStyle("filter:blur(1.5rem)");
+
+    //expect "correct" feedback to be displayed
+    const feedback = await screen.findByRole("paragraph", {
+      name: /feedback/i,
+    });
+    expect(feedback).toHaveTextContent(/correct/i);
   });
 
   test("poster remains blurred & negative feedback displayed when incorrect guess is submitted", async () => {
@@ -100,7 +107,9 @@ describe.skip("guessing flow", () => {
   });
 });
 
-describe.skip("reveal", () => {
+
+//this test passes if the tests above are skipped
+describe("reveal", () => {
   test("clicking reveal button reveals the tv poster", async () => {
     //setup
     act(() => {

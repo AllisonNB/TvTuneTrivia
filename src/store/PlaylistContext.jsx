@@ -1,10 +1,8 @@
 import { createContext, useState, useEffect } from "react";
 
 //variables
-// import.meta.env.VITE_CLIENT_ID;
-// import.meta.env.VITE_CLIENT_SECRET;
-const CLIENT_ID = "415b6a0883054c86b68283ba682b37d5";
-const CLIENT_SECRET = "e44f2665cd354766bfe1f1f0485e179c";
+const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
+const CLIENT_SECRET = import.meta.env.VITE_CLIENT_SECRET;
 const tvPlaylistId = "17lPiWULrpKQWLrOGJy8Ls";
 
 //context
