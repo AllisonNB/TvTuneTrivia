@@ -42,7 +42,7 @@ export default function AlbumCover({ isCorrect, currentSong }) {
       tabIndex="0"
       role="image"
     >
-      {currentSong ? (
+      {currentSong?.image ? (
         <img src={currentSong.image} alt="tv poster" />
       ) : (
         <h2 tabIndex="0">retrieving poster...</h2>
