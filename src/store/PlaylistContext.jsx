@@ -12,6 +12,8 @@ export const PlaylistContext = createContext({
 });
 
 //context provider component
+
+//MAKE LOADING STATE & ERROR STATE 
 export default function PlaylistContextProvider({ children }) {
   const [playlist, setPlaylist] = useState(PlaylistContext);
 

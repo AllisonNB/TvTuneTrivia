@@ -1,17 +1,8 @@
-import { render, screen, act, waitFor } from "@testing-library/react";
+import { render, screen, act } from "../../test-utils/testing-library-utils";
 import userEvent from "@testing-library/user-event";
 import SongDisplay from "./SongDisplay";
 
-const contextValue = {
-  playlistName: "playlist name",
-  tracks: [
-    {
-      name: "MOCKSHOW",
-      image: "https://fakeimage",
-      preview: "https://fakepreview",
-    },
-  ],
-};
+
 
 
 // ************************************************************************************
@@ -19,21 +10,41 @@ const contextValue = {
 // ************************************************************************************
 
 
-//this test suite only passes if these two tests are written in this order. Not sure why the order would be impacting the abilty for the tests to pass.
+//this test suite only passes if these two tests are written in this order. Not sure why the order would be impacting the abilty for these tests to pass. I tried using findBy... vs. getBy..., which didn't seem to make a difference.  
 describe("AlbumCover", () => {
   test("poster is initially rendered with blurred class", async () => {
+    const contextValue = {
+      playlistName: "playlist name",
+      tracks: [
+        {
+          name: "MOCKSHOW",
+          image: "https://fakeimage",
+          preview: "https://fakepreview",
+        },
+      ],
+    };
     act(() => {
-      render(<SongDisplay {...contextValue} />);
+      render(<SongDisplay />, { contextValue });
     });
 
-    const image = screen.getByAltText(/tv poster/i);
+    const image = await screen.findByAltText(/tv poster/i);
     expect(image).toBeInTheDocument();
     expect(image).toHaveStyle("filter:blur(1.5rem)");
   });
 
   test("loading text is displayed while waiting for current song", async () => {
+    const contextValue = {
+      playlistName: null,
+      tracks: [
+        {
+          name: null,
+          image: null,
+          preview: null,
+        },
+      ],
+    };
     act(() => {
-      render(<SongDisplay {...contextValue} />);
+      render(<SongDisplay />, { contextValue });
     });
 
     const loadingText = screen.getByText(/retrieving poster/i);
@@ -42,12 +53,23 @@ describe("AlbumCover", () => {
 });
 
 
-//I tried using waitFor here, but it was causing false positives. The first test in this suite passes if the above test suite is skipped. 
+//I tried using waitFor here, but it was causing false positives. The first test in this suite passes if the above test suite is skipped.I tried using findBy... vs. getBy..., which didn't seem to make a difference.  
 describe("guessing flow", () => {
   test("poster is revealed & positive feedback displayed when correct guess is submitted", async () => {
+    const contextValue = {
+      playlistName: "playlist name",
+      tracks: [
+        {
+          name: "MOCKSHOW",
+          image: "https://fakeimage",
+          preview: "https://fakepreview",
+        },
+      ],
+    };
+
     //setup
     act(() => {
-      render(<SongDisplay {...contextValue} />);
+      render(<SongDisplay />, { contextValue });
     });
     const user = userEvent.setup();
 
@@ -63,7 +85,7 @@ describe("guessing flow", () => {
     await user.click(submitBtn);
 
     //expect image to not be blurred
-    const image = await screen.findByAltText("tv poster");
+    const image = await screen.findByAltText(/tv poster/i);
     expect(image).toBeInTheDocument();
     expect(image).not.toHaveStyle("filter:blur(1.5rem)");
 
@@ -93,7 +115,7 @@ describe("guessing flow", () => {
     await user.click(submitBtn);
 
     //expect image to be blurred
-    const image = await screen.findByAltText("tv poster");
+    const image = await screen.findByAltText(/tv poster/i);
     expect(image).toBeInTheDocument();
     expect(image).toHaveStyle("filter:blur(1.5rem)");
 
@@ -120,7 +142,7 @@ describe("reveal", () => {
     await user.click(revealBtn);
 
     //expect poster to not have blurred class
-    const image = await screen.findByAltText("tv poster");
+    const image = await screen.findByAltText(/tv poster/i);
     expect(image).toBeInTheDocument();
     expect(image).not.toHaveStyle("filter:blur(1.5rem)");
   });
