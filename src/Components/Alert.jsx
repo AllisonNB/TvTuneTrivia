@@ -6,7 +6,7 @@ const AlertContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  top: 50%;
+  top: 35%;
   left: 50%;
   transform: translate(-50%, -50%);
   border: 1px solid #ccc;
