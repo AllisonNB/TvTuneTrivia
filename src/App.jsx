@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 
 import Playlists from "./Components/Playlists";
 import SongDisplay from "./Components/SongDisplay/SongDisplay";
+import Alert from "./Components/Alert";
 
 import PlaylistContextProvider from "./store/PlaylistContext";
 import "./app.css";
@@ -14,9 +15,16 @@ const Main = styled.main`
 `;
 
 function App() {
+  const [showAlert, setShowAlert] = useState(true);
+
+  const hideAlert = () => {
+    setShowAlert(false); //only needs to show on initial load
+  };
+
   return (
     <PlaylistContextProvider>
       <Main>
+        {showAlert && <Alert hideAlert={hideAlert} />}
         <Playlists />
         <SongDisplay />
       </Main>
