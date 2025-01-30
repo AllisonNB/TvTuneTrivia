@@ -1,8 +1,10 @@
 import { createContext, useState, useEffect } from "react";
 
 //variables
-const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
-const CLIENT_SECRET = import.meta.env.VITE_CLIENT_SECRET;
+// const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
+const CLIENT_ID = "415b6a0883054c86b68283ba682b37d5";
+// const CLIENT_SECRET = import.meta.env.VITE_CLIENT_SECRET;
+const CLIENT_SECRET = "e44f2665cd354766bfe1f1f0485e179c";
 const tvPlaylistId = "17lPiWULrpKQWLrOGJy8Ls";
 
 //context
@@ -13,7 +15,7 @@ export const PlaylistContext = createContext({
 
 //context provider component
 
-//MAKE LOADING STATE & ERROR STATE 
+//MAKE LOADING STATE & ERROR STATE
 export default function PlaylistContextProvider({ children }) {
   const [playlist, setPlaylist] = useState(PlaylistContext);
 
@@ -45,6 +47,8 @@ export default function PlaylistContextProvider({ children }) {
     const playlistName = playlistData.name;
     const allTracks = playlistData.tracks.items;
 
+    console.log("all tracks", allTracks);
+
     const tracks = allTracks
       .filter(
         (song) =>
@@ -57,6 +61,8 @@ export default function PlaylistContextProvider({ children }) {
         image: song.track.album.images[1].url,
         preview: song.track.preview_url,
       }));
+
+    console.log("filtered tracks:", tracks);
 
     setPlaylist({ ...playlist, playlistName, tracks });
   };
