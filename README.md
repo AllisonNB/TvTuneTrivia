@@ -1,4 +1,6 @@
-🚧 Spotify's API no longer includes 30s audio previews for tracks in their Web API. I am currently rebuilding this site to use spotify's web playback SDK instead.
+# 🚧🚧🚧
+
+Spotify's API no longer includes 30s audio previews for tracks in their Web API. I am currently rebuilding this site to use spotify's web playback SDK instead.
 
 # TV Theme Song Guessing Game
 
