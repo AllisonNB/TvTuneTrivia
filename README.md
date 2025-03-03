@@ -1,6 +1,6 @@
 # 🚧🚧🚧
 
-Spotify's API no longer includes a 30s audio previews for tracks in their Web API. I am currently rebuilding this site to use spotify's web playback SDK instead.
+Spotify's API no longer includes a 30s audio previews for tracks in their Web API so this project no longer works. Spotify's Webplayback SDK also only allows users to have one player instance active at a time. I currently listen to spotify all the time...which would interfer with this apps function. I am looking into other solutions for this project, but feel free to peruse my code in the meantime! 
 
 # TV Theme Song Guessing Game
 
@@ -14,6 +14,4 @@ A fun trivia game utilizing Spotify's API. Users guess the TV show based on the 
    - VITE_CLIENT_SECRET
 3. Use "npm run dev" to run the project
 
-## Future Developments
 
-- integrating user login so users can use their own custom made playlists in Spofity
